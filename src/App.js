@@ -21,6 +21,10 @@ class BooksApp extends React.Component {
   bookExists = (book) => {
     return this.state.books.filter((b) => b.id === book.id).length > 0;
   }
+  getShelfById = (id) => {
+    const foundBook =  this.state.books.filter((b) => b.id === id);
+    return foundBook.length ? foundBook[0].shelf : '';
+  }
   addBookToShelf = (book, shelf) => {
     book.shelf = shelf;
     this.setState((currentState) => ({
@@ -48,7 +52,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <Switch>
           <Route path='/search' render={() => (
-            <Search onBookMoveTo={this.addBookToShelf} />
+            <Search onBookMoveTo={this.addBookToShelf} getShelfById={this.getShelfById} />
           )}/>
           <Route path='/' render={() => (
             <BookShelves books={this.state.books} onBookMoveTo={this.moveBookToShelf} />
