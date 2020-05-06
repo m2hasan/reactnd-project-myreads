@@ -2,27 +2,39 @@ import React, {Component} from 'react';
 import * as BooksAPI from './BooksAPI';
 import {Link} from 'react-router-dom';
 import BookList from './BookList';
+import { throttle } from 'lodash';
 class Search extends Component {
   state = {
     books: [],
     query: ''
   }
+  constructor(props) {
+    super(props);
+    this.searchBooksThrottled = throttle(this.searchBooks, 1000, { leading: false });
+  }
+  searchBooks = (query) => {
+    query
+      ? BooksAPI
+        .search(query)
+        .then((books) => {
+          books && !books.error
+            ? this.setState((currentState) => ({
+                books: books.filter((book) => book.imageLinks)
+              }))
+            : this.setState((currentState) => ({
+              books: []
+            }));
+        })
+      : this.setState((currentState) => ({
+          books: []
+        }));
+  }
   onQueryChange = (event) => {
-    const query = event.target.value;
+    const {value} = event.target;
     this.setState((currentState) => ({
-      query
+      query: value
     }));
-    BooksAPI
-      .search(query)
-      .then((books) => {
-        books && !books.error
-          ? this.setState((currentState) => ({
-              books: books.filter((book) => book.imageLinks)
-            }))
-          : this.setState((currentState) => ({
-            books: []
-          }));
-      });
+    this.searchBooksThrottled(value);
   }
   render() {
     return (
