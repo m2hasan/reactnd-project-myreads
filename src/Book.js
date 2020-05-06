@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 
 class Books extends Component {
+  moveTochange = (event) => {
+    const shelf = event.target.value;
+    this.props.onBookMoveTo(this.props.book, shelf);
+  }
   render() {
     const {book} = this.props;
     if(!book.shelf) {
@@ -11,7 +15,7 @@ class Books extends Component {
         <div className="book-top">
           {book.imageLinks && <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>}
           <div className="book-shelf-changer">
-            <select defaultValue={book.shelf}>
+            <select defaultValue={book.shelf} onChange={this.moveTochange}>
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>

@@ -15,9 +15,9 @@ class BookShelves extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <CurrentlyReading books={this.getBooksByShelf('currentlyReading')} />
-            <WantToRead books={this.getBooksByShelf('wantToRead')} />
-            <Read books={this.getBooksByShelf('read')} />
+            <CurrentlyReading onBookMoveTo={this.props.onBookMoveTo} books={this.getBooksByShelf('currentlyReading')} />
+            <WantToRead onBookMoveTo={this.props.onBookMoveTo} books={this.getBooksByShelf('wantToRead')} />
+            <Read onBookMoveTo={this.props.onBookMoveTo} books={this.getBooksByShelf('read')} />
           </div>
         </div>
         <div className="open-search">

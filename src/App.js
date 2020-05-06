@@ -24,14 +24,38 @@ class BooksApp extends React.Component {
         }));
       });
   }
+  bookExists = (book) => {
+    return this.state.books.filter((b) => b.id === book.id).length > 0;
+  }
+  addBookToShelf = (book, shelf) => {
+    book.shelf = shelf;
+    this.setState((currentState) => ({
+      books: this.bookExists(book)
+        ? currentState.books.map((b) => {
+          (b.id === book.id) && (b.shelf = shelf);
+          return b;
+        })
+        : currentState.books.concat(book)
+    }));
+    BooksAPI.update(book, shelf);
+  }
+  moveBookToShelf = (book, shelf) => {
+    this.setState((currentState) => ({
+      books: currentState.books.map((b) => {
+        (b.id === book.id) && (b.shelf = shelf);
+        return b;
+      })
+    }));
+    BooksAPI.update(book, shelf);
+  }
 
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <Search onSearchClose={() => this.setState({ showSearchPage: false })} />
+          <Search onSearchClose={() => this.setState({ showSearchPage: false })} onBookMoveTo={this.addBookToShelf} />
         ) : (
-          <BookShelves books={this.state.books} onSearchOpen={() => this.setState({ showSearchPage: true })}/>
+          <BookShelves books={this.state.books} onSearchOpen={() => this.setState({ showSearchPage: true })} onBookMoveTo={this.moveBookToShelf} />
         )}
       </div>
     )
