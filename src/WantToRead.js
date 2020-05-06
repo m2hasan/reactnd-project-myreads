@@ -7,7 +7,7 @@ class WantToRead extends Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">Want to Read</h2>
         <div className="bookshelf-books">
-          <BookList />
+          <BookList books={this.props.books} />
         </div>
       </div>
     );

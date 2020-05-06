@@ -5,9 +5,9 @@ class BookList extends Component {
   render() {
     return (
       <ol className="books-grid">
-        <Book />
-        <Book />
-        <Book />
+        {this.props.books.map((book) => (
+            <Book key={book.id} book={book} onBookMoveTo={this.props.onBookMoveTo}/>
+        ))}
       </ol>
     );
   }
