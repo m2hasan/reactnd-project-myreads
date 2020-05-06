@@ -17,7 +17,7 @@ class Search extends Component {
       .then((books) => {
         books && !books.error
           ? this.setState((currentState) => ({
-              books
+              books: books.filter((book) => book.imageLinks)
             }))
           : this.setState((currentState) => ({
             books: []
