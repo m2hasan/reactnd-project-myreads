@@ -26,25 +26,31 @@ class BooksApp extends React.Component {
     return foundBook ? foundBook.shelf : '';
   }
   addBookToShelf = (book, shelf) => {
-    book.shelf = shelf;
-    this.setState((currentState) => ({
-      books: this.bookExists(book)
-        ? currentState.books.map((b) => {
-          (b.id === book.id) && (b.shelf = shelf);
-          return b;
-        })
-        : currentState.books.concat(book)
-    }));
-    BooksAPI.update(book, shelf);
+    BooksAPI
+      .update(book, shelf)
+      .then(() => {
+        book.shelf = shelf;
+        this.setState((currentState) => ({
+          books: this.bookExists(book)
+            ? currentState.books.map((b) => {
+              (b.id === book.id) && (b.shelf = shelf);
+              return b;
+            })
+            : currentState.books.concat(book)
+        }));
+      });
   }
   moveBookToShelf = (book, shelf) => {
-    this.setState((currentState) => ({
-      books: currentState.books.map((b) => {
-        (b.id === book.id) && (b.shelf = shelf);
-        return b;
-      })
-    }));
-    BooksAPI.update(book, shelf);
+    BooksAPI
+      .update(book, shelf)
+      .then(() => {
+        this.setState((currentState) => ({
+          books: currentState.books.map((b) => {
+            (b.id === book.id) && (b.shelf = shelf);
+            return b;
+          })
+        }));
+      });
   }
 
   render() {
