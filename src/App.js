@@ -19,11 +19,11 @@ class BooksApp extends React.Component {
       });
   }
   bookExists = (book) => {
-    return this.state.books.filter((b) => b.id === book.id).length > 0;
+    return this.state.books.find((b) => b.id === book.id);
   }
   getShelfById = (id) => {
-    const foundBook =  this.state.books.filter((b) => b.id === id);
-    return foundBook.length ? foundBook[0].shelf : '';
+    const foundBook =  this.state.books.find((b) => b.id === id);
+    return foundBook ? foundBook.shelf : '';
   }
   addBookToShelf = (book, shelf) => {
     book.shelf = shelf;
