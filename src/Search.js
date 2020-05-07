@@ -19,7 +19,10 @@ class Search extends Component {
         .then((books) => {
           books && !books.error
             ? this.setState((currentState) => ({
-                books: books.filter((book) => book.imageLinks)
+                books: books.filter((book) => book.imageLinks).map((book) => {
+                  book.shelf = this.props.getShelfById(book.id)
+                  return book;
+                })
               }))
             : this.setState((currentState) => ({
               books: []
