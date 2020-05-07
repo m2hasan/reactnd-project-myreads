@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import CurrentlyReading from './CurrentlyReading';
-import WantToRead from './WantToRead';
-import Read from './Read';
+import BookShelf from './BookShelf';
 
 class BookShelves extends Component {
   getBooksByShelf = (shelf) => {
     return this.props.books.filter((book) => book.shelf === shelf);
   }
   render() {
+    const shelvs = [
+      {title: 'Currently Reading', key: 'currentlyReading'},
+      {title: 'Want to Read', key: 'wantToRead'},
+      {title: 'Read', key: 'read'}
+    ];
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -16,9 +19,9 @@ class BookShelves extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <CurrentlyReading onBookMoveTo={this.props.onBookMoveTo} books={this.getBooksByShelf('currentlyReading')} />
-            <WantToRead onBookMoveTo={this.props.onBookMoveTo} books={this.getBooksByShelf('wantToRead')} />
-            <Read onBookMoveTo={this.props.onBookMoveTo} books={this.getBooksByShelf('read')} />
+            {shelvs.map((shelf) => (
+              <BookShelf key={shelf.key} books={this.getBooksByShelf(shelf.key)} title={shelf.title} onBookMoveTo={this.props.onBookMoveTo} />
+            ))}
           </div>
         </div>
         <div className="open-search">
